@@ -73,62 +73,66 @@ This is amazing!
                 } else {
                     alert('An error occurred, please try again.')
                 }
-            } else if (xhr.status === 500)
+            } else if (xhr.status === 401) {
+                alert('You must login!')
+                window.location.href = '/login'
+            } else if (xhr.status === 500) {
                 alert('There was a server error, please try again.')
-        }
-        xhr.onerror = function () {
-            alert('An error occurred. Please try again later.')
-        }
-        xhr.send(myFormData)
-    }
-    const tweetCreateFormEl = document.getElementById('tweet-create-form')
-    tweetCreateFormEl.addEventListener('submit', handleTweetCreateFormDidSubmit)
-
-    const tweetsContainerElement = document.getElementById('tweets')
-
-    function loadTweets(tweetsElement) {
-        const xhr = new XMLHttpRequest()
-        const method = 'GET'
-        const url = '/tweets'
-        const responseType = 'json'
-        xhr.responseType = responseType
-        xhr.open(method, url)
-        xhr.onload = function () {
-            const serverResponse = xhr.response
-            var listedItems = serverResponse.response
-            var finalTweetStr = ''
-            var i
-            for (i = 0; i < listedItems.length; i++) {
-                var tweetObj = listedItems[i]
-                var currentItem = formatTweetElement(tweetObj)
-                finalTweetStr += currentItem
             }
-            tweetsElement.innerHTML = finalTweetStr
-
+            xhr.onerror = function () {
+                alert('An error occurred. Please try again later.')
+            }
+            xhr.send(myFormData)
         }
-        xhr.send()
-    }
+        const tweetCreateFormEl = document.getElementById('tweet-create-form')
+        tweetCreateFormEl.addEventListener('submit', handleTweetCreateFormDidSubmit)
 
-    loadTweets(tweetsContainerElement)
+        const tweetsContainerElement = document.getElementById('tweets')
+
+        function loadTweets(tweetsElement) {
+            const xhr = new XMLHttpRequest()
+            const method = 'GET'
+            const url = '/tweets'
+            const responseType = 'json'
+            xhr.responseType = responseType
+            xhr.open(method, url)
+            xhr.onload = function () {
+                const serverResponse = xhr.response
+                var listedItems = serverResponse.response
+                var finalTweetStr = ''
+                var i
+                for (i = 0; i < listedItems.length; i++) {
+                    var tweetObj = listedItems[i]
+                    var currentItem = formatTweetElement(tweetObj)
+                    finalTweetStr += currentItem
+                }
+                tweetsElement.innerHTML = finalTweetStr
+
+            }
+            xhr.send()
+        }
+
+        loadTweets(tweetsContainerElement)
 
 
-    function handleDidLike(tweet_id, currentCount) {
-        console.log(tweet_id, currentCount)
-    }
+        function handleDidLike(tweet_id, currentCount) {
+            console.log(tweet_id, currentCount)
+        }
 
-    function LikeBtn(tweet) {
-        return "<button class='btn btn-primary btn-sm' onclick=handleDidLike(" +
-            tweet.id + "," + tweet.likes + ")>" + tweet.likes + " Likes</button>"
-    }
+        function LikeBtn(tweet) {
+            return "<button class='btn btn-primary btn-sm' onclick=handleDidLike(" +
+                tweet.id + "," + tweet.likes + ")>" + tweet.likes + " Likes</button>"
+        }
 
-    function formatTweetElement(tweet) {
-        var formattedTweet = "<div class='col-12 col-md-10 mx-auto border rounded py-3 mb-4 tweet' id='tweet-" + tweet
-            .id +
-            "'><p>" + tweet.content +
-            "</p><div class='btn-group'>" + LikeBtn(tweet) +
-            "</div></div>"
-        return formattedTweet
-    }
+        function formatTweetElement(tweet) {
+            var formattedTweet = "<div class='col-12 col-md-10 mx-auto border rounded py-3 mb-4 tweet' id='tweet-" +
+                tweet
+                .id +
+                "'><p>" + tweet.content +
+                "</p><div class='btn-group'>" + LikeBtn(tweet) +
+                "</div></div>"
+            return formattedTweet
+        }
 </script>
 
 {% endblock content %}
