@@ -1,3 +1,6 @@
 {
-    "python.pythonPath": "/home/alecreid/.local/share/virtualenvs/tweetme-oadv6EKT/bin/python"
+    "python.pythonPath": "/home/alecreid/.local/share/virtualenvs/tweetme-oadv6EKT/bin/python",
+    "prettier.jsxSingleQuote": true,
+    "prettier.semi": false,
+    "prettier.singleQuote": true
 }
