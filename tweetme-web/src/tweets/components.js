@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { loadTweets } from '../lookup'
+import { loadTweets, createTweet } from '../lookup'
 
 export function TweetComponent(props) {
     const textAreaRef = React.createRef()
@@ -8,14 +8,17 @@ export function TweetComponent(props) {
         event.preventDefault()
         const newVal = textAreaRef.current.value
         let tempNewTweets = [...newTweets]
-        tempNewTweets.unshift({
-            content: newVal,
-            likes: 0,
-            id: 12313
-        })
-        setNewTweets(tempNewTweets)
-        textAreaRef.current.value = ''
-  }
+        createTweet(newVal, (response, status) => {
+          if (status === 201) {
+            tempNewTweets.unshift(response)
+          } else {
+            console.log(response)
+            alert('There was an error, please try again.')
+          }
+          })
+          setNewTweets(tempNewTweets)
+          textAreaRef.current.value = ''
+          }
   return (
     <div className={props.className}>
       <div className='col-12 mb-3'>
