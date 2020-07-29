@@ -7,12 +7,12 @@ This is amazing!
 {% block content %}
 
 <div class="row">
-    <div class="col text-center">
+    <div class="col text-center d-none">
         <h2>Welcome to Tweetme</h2>
     </div>
 </div>
 
-<div class='row mb-3'>
+<div class='row mb-3 d-none'>
     <div class='col-md-4 mx-auto col-10'>
         <form class='form' id='tweet-create-form' method='POST' action='/create-tweet'>
             {% csrf_token %}
@@ -24,7 +24,9 @@ This is amazing!
     </div>
 </div>
 
-<div class='row' id='tweets'>
+<div id='tweetme'></div>
+
+<div class='row d-none' id='tweets'>
     Loading...
 </div>
 
