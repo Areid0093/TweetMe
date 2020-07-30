@@ -15,6 +15,14 @@ export function ParentTweet(props) {
 export function Tweet(props) {
     const { tweet, didRetweet, hideActions } = props
     const [actionTweet, setActionTweet] = useState(props.tweet ? props.tweet : null)
+    const path = window.location.pathname
+    const match = path.match(/(?<tweetid>\d+)/)
+    const urlTweetId = match ? match.groups.tweetid : -1
+    const isDetail = `${tweet.id}` === `${urlTweetId}`
+    const handleLink = (event) => {
+      event.preventDefault()
+      window.location.href = `/${tweet.id}`
+    }
     const handlePerformAction = (newActionTweet, status) => {
       if (status === 200) {
         setActionTweet(newActionTweet)
@@ -32,12 +40,15 @@ export function Tweet(props) {
           <p> {tweet.id} - {tweet.content} </p>
           <ParentTweet tweet={tweet} />
         </div>
-        {(actionTweet && hideActions !== true) && <div className='btn btn-group'>
-          <ActionBtn tweet={actionTweet} didPerformAction={handlePerformAction} action={{ type: 'like', display: 'Likes' }} />
-          <ActionBtn tweet={actionTweet} didPerformAction={handlePerformAction} action={{ type: 'unlike', display: 'Unlike' }} />
-          <ActionBtn tweet={actionTweet} didPerformAction={handlePerformAction} action={{ type: 'retweet', display: 'Retweet' }} />
+        <div className='btn btn-group'>
+        {(actionTweet && hideActions !== true) && <React.Fragment>
+            <ActionBtn tweet={actionTweet} didPerformAction={handlePerformAction} action={{ type: 'like', display: 'Likes' }} />
+            <ActionBtn tweet={actionTweet} didPerformAction={handlePerformAction} action={{ type: 'unlike', display: 'Unlike' }} />
+            <ActionBtn tweet={actionTweet} didPerformAction={handlePerformAction} action={{ type: 'retweet', display: 'Retweet' }} />
+          </React.Fragment>
+        }
+          {isDetail === true ? null : <button className='btn btn-outline-primary btn-sm' onClick={handleLink}>View</button>}
         </div>
-      }
       </div>
     )
 }
