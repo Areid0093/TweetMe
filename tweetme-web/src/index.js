@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import {TweetComponent} from './tweets'
+import {TweetComponent, TweetDetailComponent} from './tweets'
 import * as serviceWorker from './serviceWorker';
 
 const appEl = document.getElementById('root')
@@ -16,6 +16,13 @@ if (tweetsEl) {
   ReactDOM.render(
     e(TweetComponent, tweetsEl.dataset), tweetsEl);
 }
+
+const tweetDetailEl = document.querySelectorAll('.tweetme-detail')
+
+tweetDetailEl.forEach(container => {
+    ReactDOM.render(
+      e(TweetDetailComponent, container.dataset), container)
+})
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
