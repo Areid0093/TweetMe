@@ -23,7 +23,7 @@ class TweetQuerySet(models.QuerySet):
         followed_users_id = []
         if profiles_exist:
             followed_users_id = user.following.values_list('user__id', flat=True)
-        qs = self.filter(
+        return self.filter(
             Q(user__id__in=followed_users_id) |
             Q(user=user)
         ).distinct().order_by('-timestamp')
