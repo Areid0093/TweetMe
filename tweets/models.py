@@ -1,8 +1,32 @@
 import random
 from django.db import models
 from django.conf import settings
+from django.db.models import Q
 
 User = settings.AUTH_USER_MODEL
+
+
+class TweetManager(models.Manager):
+    def get_queryset(self, *args, **kwargs):
+        return TweetQuerySet(self.model, using=self._db)
+
+    def feed(self, user):
+        return self.get_queryset().feed(user)
+
+
+class TweetQuerySet(models.QuerySet):
+    def by_username(self, username):
+        return self.filter(user__username__iexact=username)
+
+    def feed(self, user):
+        profiles_exist = user.following.exists()
+        followed_users_id = []
+        if profiles_exist:
+            followed_users_id = user.following.values_list('user__id', flat=True)
+        qs = self.filter(
+            Q(user__id__in=followed_users_id) |
+            Q(user=user)
+        ).distinct().order_by('-timestamp')
 
 
 class TweetLike(models.Model):
@@ -18,6 +42,8 @@ class Tweet(models.Model):
     image = models.FileField(upload_to='images/', blank=True, null=True)
     likes = models.ManyToManyField(User, related_name='tweet_user', blank=True, through=TweetLike)
     timestamp = models.DateTimeField(auto_now_add=True)
+
+    objects = TweetManager()
 
 
     class Meta:
