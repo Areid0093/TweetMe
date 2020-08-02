@@ -19,8 +19,6 @@ class Tweet(models.Model):
     likes = models.ManyToManyField(User, related_name='tweet_user', blank=True, through=TweetLike)
     timestamp = models.DateTimeField(auto_now_add=True)
 
-    # def __str__(self):
-    #     return self.content
 
     class Meta:
         ordering = ['-id']
@@ -28,10 +26,3 @@ class Tweet(models.Model):
     @property
     def is_retweet(self):
         return self.parent != None
-
-    # def serialize(self):
-    #     return {
-    #         'id': self.id,
-    #         'content': self.content,
-    #         'likes': random.randint(0, 200)
-    #     }
