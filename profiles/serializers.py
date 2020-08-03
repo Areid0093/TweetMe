@@ -27,7 +27,7 @@ class PublicProfileSerializer(serializers.ModelSerializer):
     def get_is_following(self, obj):
         is_following = False
         context = self.context
-        request = context.get('request')
+        request = context.get("request")
         if request:
             user = request.user
             is_following = user in obj.followers.all()
