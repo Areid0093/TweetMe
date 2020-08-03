@@ -44,9 +44,9 @@ export function Tweet(props) {
           </div>
         <div className='col-11'>
         <div>
-          <p>
+
             <UserDisplay includeFullName user={tweet.user}/>
-          </p>
+
           <p> {tweet.content} </p>
           <ParentTweet tweet={tweet} retweeter={tweet.user} />
         </div>
