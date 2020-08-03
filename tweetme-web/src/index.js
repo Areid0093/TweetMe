@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import {TweetComponent, TweetDetailComponent, FeedComponent} from './tweets'
+import {ProfileBadge} from './profiles'
 import * as serviceWorker from './serviceWorker';
 
 const appEl = document.getElementById('root')
@@ -28,6 +29,13 @@ const tweetDetailEl = document.querySelectorAll('.tweetme-detail')
 tweetDetailEl.forEach(container => {
     ReactDOM.render(
       e(TweetDetailComponent, container.dataset), container)
+})
+
+const profileBadgeEl = document.querySelectorAll('.tweetme-profile-badge')
+
+profileBadgeEl.forEach(container => {
+    ReactDOM.render(
+      e(ProfileBadge, container.dataset), container)
 })
 
 // If you want your app to work offline and load faster, you can change
